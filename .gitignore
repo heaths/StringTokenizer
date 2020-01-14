@@ -1,0 +1,4 @@
+BenchmarkDotNet.Artifacts/
+bin/
+obj/
+*.etl
