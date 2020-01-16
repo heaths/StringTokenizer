@@ -9,6 +9,7 @@ using BenchmarkDotNet.Running;
 namespace Utils
 {
     [MemoryDiagnoser]
+    [MarkdownExporterAttribute.GitHub]
     public class Program
     {
         private static readonly char[] _separators = new[] { ' ', ',', '.', '\n' };
@@ -72,6 +73,21 @@ namespace Utils
             {
                 StringSegment segment = e.Current;
                 StringSegment value = segment.UnsafeTrim();
+                count++;
+            }
+
+            return count;
+        }
+
+        [Benchmark]
+        public int UsingStringTokenizerSpans()
+        {
+            StringTokenizer tokenizer = new StringTokenizer(Text, _separators, Options);
+
+            int count = 0;
+            foreach (StringSegment segment in tokenizer)
+            {
+                ReadOnlySpan<char> value = segment.AsSpan().Trim();
                 count++;
             }
 
